@@ -5,10 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    status: 'Ready to call',
-    contactStauts: '',
-    contactId: '',
+    wisId: '',
+    status: '',
+    opponentId: '',
     creator: false,
+    contactStauts: '',
   },
   mutations: {
     changeState(state, newStatus) {
@@ -20,6 +21,8 @@ export default new Vuex.Store({
     },
   },
 
-  actions: {},
+  actions: {
+    init({}) {},
+  },
   plugins: [],
 })

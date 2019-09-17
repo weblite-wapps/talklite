@@ -1,0 +1,7 @@
+export cosnt readyToCall = 'Ready to call'
+export cosnt waitingForCall = 'Waiting for call...'
+export cosnt Ringing = 'Ringing...'
+export cosnt callCanceled = 'Call Cancelled'
+export cosnt connecting = 'Connecting...'
+export cosnt callRejected = 'Call Rejected'
+export cosnt callEnded = 'Call Ended'

@@ -9,7 +9,7 @@
 import TheCallStatus from './components/TheCallStatus.vue'
 import TheButtonPanel from './components/TheButtonPanel.vue'
 import webliteApi from './helper/weblite.api'
-import { insertOpponentId } from './helper/dbHandler'
+import { insertFirstDatas } from './helper/dbHandler'
 import store from './store'
 const { W } = window
 export default {
@@ -21,7 +21,7 @@ export default {
   },
   created() {
     W && webliteApi(this)
-    W && insertOpponentId()
+    W && this.init()
   },
 }
 </script>
