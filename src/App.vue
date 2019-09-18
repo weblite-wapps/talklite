@@ -9,8 +9,8 @@
 import TheCallStatus from './components/TheCallStatus.vue'
 import TheButtonPanel from './components/TheButtonPanel.vue'
 import webliteApi from './helper/weblite.api'
-import { insertFirstDatas } from './helper/dbHandler'
 import store from './store'
+import { mapActions, mapState } from 'vuex'
 const { W } = window
 export default {
   name: 'app',
@@ -19,9 +19,19 @@ export default {
     TheCallStatus,
     TheButtonPanel,
   },
+  computed: {
+    ...mapState(['wisId']),
+  },
+  methods: {
+    ...mapActions(['init']),
+  },
   created() {
     W && webliteApi(this)
-    W && this.init()
+  },
+  watch: {
+    wisId() {
+      W && this.init()
+    },
   },
 }
 </script>

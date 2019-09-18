@@ -1,34 +1,21 @@
 // W
 const { W } = window
 const handleNormalMode = (start, vue) => {
-  W.loadData().then(data => {
-    const {
-      user: { userId },
-      creator,
-    } = data
+  Promise.all([W.loadData(), W.share.getFromServer([])]).then(data => {
+    const [
+      {
+        user: { id },
+        creator,
+      },
+    ] = data
 
     vue.$store.commit('changeWebliteRelatedData', {
       wisId: W.wisId,
-      userId,
+      userId: id,
       creator,
     })
-
     start()
   })
-  // Promise.all([W.share.getFromServer([]), W.loadData()].then(data => {
-  //   const [{
-  //     user: { userId },
-  //     creator,
-  //   }] = data
-
-  //   vue.$store.commit('changeWebliteRelatedData', {
-  //     wisId: W.wisId,
-  //     userId,
-  //     creator,
-  //   })
-
-  //   start()
-  // })
 }
 
 export default vue => {

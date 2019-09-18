@@ -1,6 +1,11 @@
 
 <template>
-  <button v-if="canLaod" class="c--button" :class="{ 'green': type === 'accept' }">
+  <button
+    v-if="canLaod"
+    class="c--button"
+    :class="{ 'green': type === 'accept' } "
+    @click="() => buttonClick(type)"
+  >
     <svg width="18" height="18">
       <path
         v-if="type === 'accept'"
@@ -17,21 +22,43 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import {
+  waitingForCall,
+  callEnded,
+  connecting,
+  Ringing,
+  callCanceled,
+  callRejected,
+  readyToCall,
+  accept,
+  reject,
+  inCall,
+} from '../helper/stateTypes'
 export default {
   name: 'ButtonPanelButtonBase',
   computed: {
-    ...mapState(['creator', 'status']),
+    ...mapState(['creator', 'callStatus']),
+    status() {
+      return this.creator
+        ? this.callStatus.callerState
+        : this.callStatus.calleeState
+    },
     canLaod() {
-      const [status, type, creator] = [this.status, this.type, this.creator]
+      const type = this.type
       return (
-        (status === 'Ready to call' && type === 'accept') ||
-        (status === 'connecting' && type === 'reject') ||
-        (status === 'ringing' && creator && type === 'reject') ||
-        (status === 'ringing' && !creator) ||
-        (status === 'Call rejected' && type === 'accept')
+        (this.status === readyToCall && type === accept) ||
+        (this.status === connecting && type === reject) ||
+        (this.status === Ringing && this.creator && type === reject) ||
+        (this.status === Ringing && !this.creator) ||
+        (this.status === callRejected && type === accept) ||
+        (this.status === callCanceled && type === accept) ||
+        (this.status === inCall && type === reject)
       )
     },
+  },
+  methods: {
+    ...mapActions(['buttonClick']),
   },
   props: {
     type: String,
@@ -50,6 +77,7 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: #f47272;
+  cursor: pointer;
 }
 .c--button.green {
   background-color: #56bf03;
