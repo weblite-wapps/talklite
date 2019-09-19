@@ -1,0 +1,17 @@
+{
+  "name": "Talklite-x",
+  "id": "5d833d260182287ec6cc96fb",
+  "searchable": false,
+  "instantiable": true,
+  "inline": false,
+  "creator": false,
+  "shareDB": true,
+  "width": false,
+  "height": false,
+  "userInfo": true,
+  "fullscreen": true,
+  "servIndexes": {
+    "main": "index"
+  },
+  "version": "0.1.0"
+}
