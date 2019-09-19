@@ -4,8 +4,8 @@ const { W } = window
 
 const dispatch = qlite => W.share.dispatch([], qlite, [])
 
-export const initialInsert = (creator, userId) => {
-  console.log('creator, userId  in initialInsert', creator, userId)
+export const initialInsert = (creator, userId, userName) => {
+  // console.log('creator, userId  in initialInsert', creator, userId)
   dispatch([
     '__ifElse',
     [
@@ -15,9 +15,16 @@ export const initialInsert = (creator, userId) => {
         [
           ['__assoc', ['callerState', readyToCall]],
           ['__assoc', ['calleeState', waitingForCall]],
+          ['__assoc', ['callerName', userName]],
         ],
       ],
-      ['__assoc', ['opponentId', userId]],
+      [
+        '__compose',
+        [
+          ['__assoc', ['opponentId', userId]],
+          ['__assoc', ['calleeName', userName]],
+        ],
+      ],
     ],
   ])
 }

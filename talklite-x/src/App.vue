@@ -1,23 +1,38 @@
 <template>
   <div id="app">
-    <TheCall />
+    <TheCall :contact="contact" />
   </div>
 </template>
 
 <script>
-import TheCall from "./components/TheCall.vue";
-
+import TheCall from './components/TheCall.vue'
+import webliteApi from './helper/weblite.api'
+const { W } = window
 export default {
-  name: "app",
+  name: 'app',
   components: {
-    TheCall
-  }
-};
+    TheCall,
+  },
+  data: () => ({
+    wisId: '',
+    callerName: '',
+    calleeName: '',
+    creator: false,
+  }),
+  computed: {
+    contact() {
+      return this.creator ? this.calleeName : this.callerName
+    },
+  },
+  created() {
+    W && webliteApi(this)
+  },
+}
 </script>
 
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

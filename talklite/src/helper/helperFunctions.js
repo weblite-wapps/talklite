@@ -97,16 +97,19 @@ export const getNewCallStatus = (creator, callStatus, clickedType) => {
       }
     }
   }
-  console.log(
-    'creator, callStatus, clickedType: ',
-    creator,
-    callStatus,
-    clickedType,
-  )
+  // console.log(
+  //   'creator, callStatus, clickedType: ',
+  //   creator,
+  //   callStatus,
+  //   clickedType,
+  // )
 }
 
 export const noNeedToNewWis = (callStatus, clickType) => {
-  if ('') {
-    console.log('in check for new wis')
+  if (callStatus.calleeState === Ringing) {
+    if (clickType === accept) {
+      return false
+    }
   }
+  return true
 }

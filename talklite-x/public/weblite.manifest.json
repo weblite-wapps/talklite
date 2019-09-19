@@ -1,7 +1,7 @@
 {
   "name": "Talklite-x",
   "id": "5d833d260182287ec6cc96fb",
-  "searchable": false,
+  "searchable": true,
   "instantiable": true,
   "inline": false,
   "creator": false,
@@ -9,7 +9,7 @@
   "width": false,
   "height": false,
   "userInfo": true,
-  "fullscreen": true,
+  "fullscreen": false,
   "servIndexes": {
     "main": "index"
   },
