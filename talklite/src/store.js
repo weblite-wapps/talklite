@@ -1,8 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as db from './helper/dbHandler'
-import { noNeedToNewWis } from './helper/helperFunctions'
+import {
+  noNeedToNewWis,
+  needToRecall,
+  needToCallPage,
+} from './helper/helperFunctions'
+import { callCanceled } from './helper/stateTypes'
 
+const { W } = window
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -21,9 +27,16 @@ export default new Vuex.Store({
   },
   mutations: {
     updateState(state, newStatus) {
-      // console.log('oldStatus ', state.callStatus)
-      // console.log('newStatus ', newStatus)
       state.callStatus = newStatus
+      if (needToCallPage(newStatus, undefined, true)) {
+        const {
+          creator,
+          callStatus: { callerName, calleeName },
+        } = state
+        W.runWapp('main', '5d833d260182287ec6cc96fb', undefined, {
+          contactName: calleeName,
+        })
+      }
     },
     changeWebliteRelatedData(state, { wisId, userId, creator, userName }) {
       state.wisId = wisId
@@ -37,30 +50,39 @@ export default new Vuex.Store({
     init({ state: { callStatus, creator, userId, userName } }) {
       // console.log('callStatus, creator, userId ', callStatus, creator, userId)
       if (!callStatus.opponentId) {
-        // console.log('hello')
+        // console.log('userName 1 ', userName)
         db.initialInsert(creator, userId, userName)
       }
     },
     buttonClick(
       {
-        state: { wisId, creator, callStatus, callerName, calleeName },
+        state: {
+          creator,
+          callStatus,
+          callStatus: { callerName, calleeName },
+        },
       },
       clickType,
     ) {
-      if (noNeedToNewWis(callStatus, clickType)) {
+      // if (noNeedToNewWis(callStatus, clickType)) {
+
+      // } else {
+      if (needToRecall(callStatus, clickType, creator)) {
+        W.sendMessageToCurrentChat('wapp', {
+          wappId: '5d7f4282090cc94274b115a8',
+        })
+      } else if (needToCallPage(callStatus, clickType, false)) {
+        W.runWapp('main', '5d833d260182287ec6cc96fb', undefined, {
+          contactName: callerName,
+        })
         db.updateState(creator, callStatus, clickType)
       } else {
-        W.sendMessageToCurrentChat('wapp', {
-          wappId: '5d833d260182287ec6cc96fb',
-          wisId,
-          customize: {
-            callerName,
-            calleeName,
-          },
-        })
+        db.updateState(creator, callStatus, clickType)
       }
+      // }
     },
   },
+
   plugins: [
     ({ dispatch, commit }) => {
       W.share.subscribe(newStatus => commit('updateState', newStatus))

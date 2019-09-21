@@ -2,7 +2,7 @@
   "name": "Talklite-x",
   "id": "5d833d260182287ec6cc96fb",
   "searchable": true,
-  "instantiable": true,
+  "instantiable": false,
   "inline": false,
   "creator": false,
   "shareDB": true,
@@ -13,5 +13,5 @@
   "servIndexes": {
     "main": "index"
   },
-  "version": "0.1.0"
+  "version": "0.1.1"
 }

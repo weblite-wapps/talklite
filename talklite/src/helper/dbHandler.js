@@ -5,7 +5,7 @@ const { W } = window
 const dispatch = qlite => W.share.dispatch([], qlite, [])
 
 export const initialInsert = (creator, userId, userName) => {
-  // console.log('creator, userId  in initialInsert', creator, userId)
+  console.log('creator, userId  in initialInsert', creator, userId, userName)
   dispatch([
     '__ifElse',
     [
@@ -35,7 +35,7 @@ export const updateState = (creator, callStatus, clickedType) => {
     callStatus,
     clickedType,
   )
-  // console.log('newCallStatus: ', newCallStatus)
+  console.log('newCallStatus: ', callerState, calleeState)
   dispatch([
     '__compose',
     [

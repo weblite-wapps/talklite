@@ -1,6 +1,6 @@
 <template>
   <div class="c--call_profile">
-    <img src="hj.png" alt />
+    <img class="call_profile_photo" :src="url" alt />
     <span class="call_profile_title">{{contact}}</span>
   </div>
 </template>
@@ -9,7 +9,14 @@
 export default {
   name: 'TheCallProfile',
   components: {},
-  props: { contact: String },
+  props: { contact: String, profileUrl: String },
+  computed: {
+    url() {
+      return this.profileUrl
+        ? `https://www.weblite.me:3000/image/${this.profileUrl}`
+        : 'contact-placeholder.jpg'
+    },
+  },
 }
 </script>
 
@@ -23,10 +30,16 @@ export default {
 .call_profile_title {
   margin-top: 20px;
   align-self: center;
-  width: 99px;
   height: 32px;
   font-size: 24px;
   color: white;
   text-align: center;
+}
+
+.call_profile_photo {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 </style>

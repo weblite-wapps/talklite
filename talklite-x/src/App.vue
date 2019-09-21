@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TheCall :contact="contact" />
+    <TheCall :contact="contactName" :profileUrl="profileUrl" />
   </div>
 </template>
 
@@ -15,15 +15,9 @@ export default {
   },
   data: () => ({
     wisId: '',
-    callerName: '',
-    calleeName: '',
-    creator: false,
+    contactName: '',
+    profileUrl: '',
   }),
-  computed: {
-    contact() {
-      return this.creator ? this.calleeName : this.callerName
-    },
-  },
   created() {
     W && webliteApi(this)
   },

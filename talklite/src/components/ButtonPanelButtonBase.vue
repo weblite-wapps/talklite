@@ -73,11 +73,12 @@ export default {
   border: none;
   outline: none;
   border-radius: 50%;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   background-color: #f47272;
   cursor: pointer;
+
 }
 .c--button.green {
   background-color: #56bf03;

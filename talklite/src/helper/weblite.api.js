@@ -8,7 +8,6 @@ const handleNormalMode = (start, vue) => {
         creator,
       },
     ] = data
-    console.log('data ', data)
     vue.$store.commit('changeWebliteRelatedData', {
       wisId: W.wisId,
       userId: id,

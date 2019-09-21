@@ -1,7 +1,7 @@
 <template>
   <div class="c--call">
     <TheCallDuration />
-    <TheCallProfile :contact="contact" />
+    <TheCallProfile :contact="contact" :profileUrl="profileUrl" />
     <!-- <TheCallEffectButton /> -->
     <TheCallControlButtons />
   </div>
@@ -22,6 +22,7 @@ export default {
   },
   props: {
     contact: String,
+    profileUrl: String,
   },
 }
 </script>

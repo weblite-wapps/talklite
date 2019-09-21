@@ -111,5 +111,40 @@ export const noNeedToNewWis = (callStatus, clickType) => {
       return false
     }
   }
+  if (
+    (callStatus.callerState === callCanceled ||
+      callStatus.calleeState === callCanceled) &&
+    clickType === accept
+  ) {
+    return false
+  }
   return true
+}
+
+export const needToRecall = (callStatus, clickType, creator) => {
+  if (
+    ((callStatus.callerState === callCanceled && creator) ||
+      (callStatus.calleeState === callCanceled && !creator)) &&
+    clickType === accept
+  )
+    return true
+
+  if (
+    ((callStatus.callerState === callRejected && creator) ||
+      (callStatus.calleeState === callRejected && !creator)) &&
+    clickType === accept
+  )
+    return true
+  return false
+}
+export const needToCallPage = (callStatus, clickType, creator) => {
+  if (callStatus.callerState === inCall && creator) {
+    return true
+  }
+  if (callStatus.callerState === Ringing && !creator) {
+    if (clickType === accept) {
+      return true
+    }
+  }
+  return false
 }
