@@ -38,7 +38,7 @@ import {
 export default {
   name: 'ButtonPanelButtonBase',
   computed: {
-    ...mapState(['creator', 'callStatus']),
+    ...mapState(['creator', 'callStatus', 'testIsPassed']),
     status() {
       return this.creator
         ? this.callStatus.callerState
@@ -47,7 +47,7 @@ export default {
     canLaod() {
       const type = this.type
       return (
-        (this.status === readyToCall && type === accept) ||
+        (this.status === readyToCall && type === accept && this.testIsPassed) ||
         (this.status === connecting && type === reject) ||
         (this.status === Ringing && this.creator && type === reject) ||
         (this.status === Ringing && !this.creator) ||
@@ -78,7 +78,6 @@ export default {
   align-items: center;
   background-color: #f47272;
   cursor: pointer;
-
 }
 .c--button.green {
   background-color: #56bf03;

@@ -38,12 +38,12 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  width: 233px;
-  height: 75px;
-  background-color: #282828;
+  /* width: 233px; */
+  width: 320px;
+  /* height: 75px; */
+  height: 320px;
+  /* background-color: #282828; */
+  background-color: gray;
   border-radius: 15px;
   border-bottom-right-radius: 0;
   opacity: 1;
@@ -51,5 +51,10 @@ export default {
   display: inline-flex;
   padding: 0 20px;
   box-sizing: border-box;
+}
+.test {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 </style>

@@ -1,5 +1,4 @@
 import {
-  waitingForCall,
   callEnded,
   connecting,
   Ringing,
@@ -97,12 +96,6 @@ export const getNewCallStatus = (creator, callStatus, clickedType) => {
       }
     }
   }
-  // console.log(
-  //   'creator, callStatus, clickedType: ',
-  //   creator,
-  //   callStatus,
-  //   clickedType,
-  // )
 }
 
 export const noNeedToNewWis = (callStatus, clickType) => {

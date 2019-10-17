@@ -1,12 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as db from './helper/dbHandler'
-import {
-  noNeedToNewWis,
-  needToRecall,
-  needToCallPage,
-} from './helper/helperFunctions'
-import { callCanceled } from './helper/stateTypes'
+import { needToRecall, needToCallPage } from './helper/helperFunctions'
+import { readyToCall } from './helper/stateTypes'
+import { runTests } from './helper/test'
 
 const { W } = window
 Vue.use(Vuex)
@@ -24,67 +21,64 @@ export default new Vuex.Store({
       calleeName: '',
     },
     creator: false,
+    testIsPassed: false,
   },
   mutations: {
     updateState(state, newStatus) {
       state.callStatus = newStatus
+      const {
+        creator,
+        callStatus: { callerName, calleeName, callerState },
+      } = state
       if (needToCallPage(newStatus, undefined, true)) {
-        const {
-          creator,
-          callStatus: { callerName, calleeName },
-        } = state
         W.runWapp('main', '5d833d260182287ec6cc96fb', undefined, {
-          contactName: calleeName,
+          contactName: creator ? calleeName : callerName,
         })
       }
+      if (callerState === readyToCall) {
+        state.testIsPassed = runTests()
+      }
     },
-    changeWebliteRelatedData(state, { wisId, userId, creator, userName }) {
-      state.wisId = wisId
+    changeWebliteRelatedData(state, { userId, creator, userName }) {
       state.userId = userId
       state.creator = creator
       state.userName = userName
+    },
+    changeWisid(state, { wisId }) {
+      state.wisId = wisId
     },
   },
 
   actions: {
     init({ state: { callStatus, creator, userId, userName } }) {
-      // console.log('callStatus, creator, userId ', callStatus, creator, userId)
-      if (!callStatus.opponentId) {
-        // console.log('userName 1 ', userName)
+      if (
+        (!creator && !callStatus.opponentId) ||
+        (creator && !callStatus.callerState)
+      ) {
         db.initialInsert(creator, userId, userName)
       }
     },
     buttonClick(
       {
-        state: {
-          creator,
-          callStatus,
-          callStatus: { callerName, calleeName },
-        },
+        state: { creator, callStatus },
       },
       clickType,
     ) {
-      // if (noNeedToNewWis(callStatus, clickType)) {
-
-      // } else {
       if (needToRecall(callStatus, clickType, creator)) {
         W.sendMessageToCurrentChat('wapp', {
           wappId: '5d7f4282090cc94274b115a8',
+          wisId: '',
         })
       } else if (needToCallPage(callStatus, clickType, false)) {
-        W.runWapp('main', '5d833d260182287ec6cc96fb', undefined, {
-          contactName: callerName,
-        })
         db.updateState(creator, callStatus, clickType)
       } else {
         db.updateState(creator, callStatus, clickType)
       }
-      // }
     },
   },
 
   plugins: [
-    ({ dispatch, commit }) => {
+    ({ commit }) => {
       W.share.subscribe(newStatus => commit('updateState', newStatus))
     },
   ],

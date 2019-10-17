@@ -12,19 +12,10 @@ export default {
   computed: {
     ...mapState(['callStatus', 'creator']),
     status() {
-      // console.log('callStatus, creator ', this.callStatus, this.creator)
       return this.creator
         ? this.callStatus.callerState
         : this.callStatus.calleeState
     },
-  },
-  watch: {
-    callStatus() {
-      // console.log('new call Status ', this.callStatus)
-    },
-  },
-  updated() {
-    // console.log('status ', this.status)
   },
 }
 </script>
